@@ -1,0 +1,33 @@
+@import "./Habits.scss";
+@import "@styles/common";
+@import "./DashboardButton.scss";
+
+.dashboard {
+    display: flex;
+    flex-grow: 1;
+
+    &__top {
+        display: flex;
+        flex-grow: 1;
+
+        &__left {
+            display: flex;
+            flex-grow: 1;
+            flex-direction: column;
+
+            &__buttons {
+                display: flex;
+                align-items: baseline;
+                justify-content: space-evenly;
+
+                
+            }
+
+            &__content {}
+        }
+
+        &__right {}
+    }
+
+    &__bottom {}
+}

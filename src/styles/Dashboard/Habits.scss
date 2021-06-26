@@ -1,0 +1,15 @@
+@import "@styles/common";
+
+.dashboard__habits {
+    h3 {}
+
+    &__content {}
+
+    &__item {
+        svg {
+            width: 30px;
+            height: auto;
+        }
+    }
+
+}

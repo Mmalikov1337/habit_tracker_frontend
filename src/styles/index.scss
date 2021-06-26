@@ -1,0 +1,20 @@
+@import "../assets/fonts/Gilroy/stylesheet.css";
+@import "../assets/fonts/Roboto/stylesheet.css";
+
+@import "./Sidebar.scss";
+@import "./Dashboard/Dashboard.scss";
+@import "./Dashboard/DashboardButton.scss";
+
+@import "@styles/common";
+
+body {
+    margin: 0;
+}
+
+.main {
+    display: flex;
+    flex-direction: row;
+    font-family: Roboto;
+    height: 100vh;
+    background-color: $bgColor;
+}
