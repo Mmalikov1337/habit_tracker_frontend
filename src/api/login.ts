@@ -1,7 +1,6 @@
 import { api_address } from "../config";
 
 export default async function login(email: string, password: string) {
-	//вызывать только после загрузки компонента
 	try {
 		const responseData = await fetch(`${api_address}/auth/login`, {
 			method: "POST",
@@ -16,6 +15,6 @@ export default async function login(email: string, password: string) {
 		});
 		return responseData;
 	} catch (e) {
-		console.log("submitForm Failed to fetch.", e.message, e.name);
+		console.log("login Failed to fetch.", e.message, e.name);
 	}
 }

@@ -1,4 +1,7 @@
+import getHabits from "@src/api/getHabits";
+import LocalStorageHelper from "@src/helpers/LocalStorageHelper";
 import MainLayout from "@src/layouts/mainLayout";
+import { HabitDTO } from "@src/types";
 import React from "react";
 import MinusSVG from "../SVG/minus";
 import PlusSVG from "../SVG/plus";
@@ -42,11 +45,52 @@ const tempHabits = [
 	},
 ];
 
-export default function Habits() {
+export default React.memo(function Habits() {
+	const [habits, setHabits] = React.useState<HabitDTO[]>([]);
+	const [isLoaded, setIsLoaded] = React.useState(false);
+	const ls = isLoaded ? new LocalStorageHelper() : null;
+
+	React.useEffect(() => {
+		setIsLoaded(true);
+	}, []);
+
+	React.useEffect(() => {
+		if (isLoaded) {
+			fetchHabits().then((fetched) => {
+				if(fetched)
+					setHabits(fetched);
+			});
+		}
+	}, [isLoaded]);
+
+	async function fetchHabits() {
+		if (ls) {
+			const access = ls.getItem<string>("access");
+			if (!access) {
+				console.log("access not found");
+				return;
+			}
+			const habitsData = await getHabits(access);
+			if (!habitsData) return;
+			if (habitsData.status.toString()[0] === "4") {
+				console.log("Failed to fetch habits");
+				return;
+			}
+			const data: HabitDTO[] = await habitsData.json();
+			if (!data) {
+				console.log("Failed to await habitsData.json()");
+				return;
+			}
+			console.log("data",data);
+			
+			return data;
+		}
+		// getHabits();
+	}
 	return (
 		<MainLayout className="habits__container">
 			<div className="habits__list">
-				{tempHabits.map((it, index) => {
+				{habits.map((it, index) => {
 					return (
 						<div className="habits__list__row hover" key={it.id}>
 							<div className="habits__list__text">
@@ -64,4 +108,4 @@ export default function Habits() {
 			</div>
 		</MainLayout>
 	);
-}
+});
