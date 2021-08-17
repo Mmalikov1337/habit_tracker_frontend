@@ -3,7 +3,12 @@ import React from "react";
 import Head from 'next/head';
 
 import "../styles/index.scss";
+import { wrapper } from '@src/store/store';
 const App = ({ Component, pageProps }: AppProps) => {
+    // React.useEffect(() => {
+    //     console.log("HMMMMMMMMMMMM!");
+        
+    // }, [])
     return (
         <>
             <Head>
@@ -19,4 +24,4 @@ const App = ({ Component, pageProps }: AppProps) => {
     )
 }
 
-export default App;
+export default wrapper.withRedux(App);

@@ -1,0 +1,68 @@
+.habits {
+	$fz-title: 20px;
+	$fz-priority: 14px;
+	$height-row: 72px;
+	$button-size: 35px;
+
+	&__container {
+		flex-grow: 1;
+		display: flex;
+	}
+
+	&__list {
+		display: flex;
+		flex-direction: column;
+
+		&__row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			height: $height-row;
+			margin: 5px;
+			padding: 10px;
+			border-radius: 15px;
+		}
+
+		&__buttons {
+			display: flex;
+			align-items: center;
+			height: 100%;
+
+		}
+
+		&__text {
+			display: flex;
+			flex-direction: column;
+		}
+
+		&__title {
+			font-size: $fz-title;
+		}
+
+		&__priority {
+			font-size: $fz-priority;
+			color: $minor;
+		}
+
+		&__value {
+			margin: 0 5px;
+			min-width: 32px;
+			text-align: center;
+		}
+
+		&__button {
+			width: $button-size;
+			height: $button-size;
+
+			// fill: rgb(0, 194, 178);;
+			path {
+				fill-opacity: 0.5;
+			}
+
+			&:hover,
+			&:active {
+				fill: darken($color: $primary, $amount: 0.15);
+			}
+		}
+	}
+}

@@ -8,9 +8,11 @@ interface IMainLayout {
 
 export default function MainLayout(props: IMainLayout) {
     return (
-        <main className={props.className}>
+        <div className="main">
             <Sidebar />
-            {props.children}
-        </main>
+            <main className={props.className}>
+                {props.children}
+            </main>
+        </div>
     )
 }

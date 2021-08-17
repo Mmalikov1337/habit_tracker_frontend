@@ -6,15 +6,30 @@
 @import "./Dashboard/DashboardButton.scss";
 
 @import "@styles/common";
+@import "./Habits/Habits.scss";
 
 body {
     margin: 0;
+    font-family: Roboto;
 }
 
 .main {
     display: flex;
     flex-direction: row;
-    font-family: Roboto;
     height: 100vh;
     background-color: $bgColor;
+}
+
+.svg {
+    min-width: 10px;
+    height: auto;
+}
+
+.hover {
+
+    &-active,
+    &:hover {
+        background: #E3F2FD;
+        color: $primary;
+    }
 }
