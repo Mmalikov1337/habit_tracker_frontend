@@ -1,7 +1,7 @@
 export default class LocalStorageHelper {
 	setItem<T>(key: string, object: T | null) {
 		if (!object) {
-			console.log("LocalStorageHelper setItem wrong object.", object, key);
+			// console.log("LocalStorageHelper setItem wrong object.", object, key);
 			return;
 		}
 		const stringifyed = JSON.stringify(object);
@@ -10,7 +10,7 @@ export default class LocalStorageHelper {
 	getItem<T>(key: string) {
 		const item = window.localStorage.getItem(key);
 		if (!item) {
-			console.log("LocalStorageHelper item wrong.", item, key);
+			// console.log("LocalStorageHelper item wrong.", item, key);
 			return;
 		}
 		const parsed: T = JSON.parse(item);

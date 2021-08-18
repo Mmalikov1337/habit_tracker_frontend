@@ -1,9 +1,6 @@
-import React from 'react'
+import HabitDetail from "@components/habits/HabitDetail";
+import React from "react";
 
-export default function [habitId]() {
-	return (
-		<div>
-			
-		</div>
-	)
+export default function HabitId() {
+	return <HabitDetail />;
 }

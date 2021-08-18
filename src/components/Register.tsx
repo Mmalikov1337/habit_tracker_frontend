@@ -24,9 +24,9 @@ export default function Register() {
 			}),
 		});
 
-		console.log("responseData.status:", responseData.status);
+		// console.log("responseData.status:", responseData.status);
 		const resText = await responseData.text();
-		console.log("response", JSON.parse(resText));
+		// console.log("response", JSON.parse(resText));
 	};
 
 	return (

@@ -5,7 +5,7 @@ const initialUserDataState: UserState = new UserState({});
 const initialisAuthState: isAuthentificatedState = { authentificated: false };
 
 export const userDataReducer = (state = initialUserDataState, action: UserAction): UserState => {
-	console.log(state, action);
+	// console.log(state, action);
 	switch (action.type) {
 		case UserActionTypes.SET_USER_INFO: {
 			return { ...state, ...action.payload };
@@ -22,7 +22,7 @@ export const userAuthReducer = (
 	state = initialisAuthState,
 	action: UserAction
 ): isAuthentificatedState => {
-	console.log(state, action);
+	// console.log(state, action);
 	switch (action.type) {
 		case UserActionTypes.SET_AUTHENTIFICATED: {
 			return { ...state, ...action.payload };

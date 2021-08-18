@@ -1,16 +1,18 @@
 import { api_address } from "../config";
 
-export default async function getHabits(accessToken: string) {
+export default async function getHabits(accessToken: string, habitId?: number) {
 	try {
-		const responseData = await fetch(`${api_address}/habit`, {
+		const url = habitId ? `${api_address}/habit/${habitId}` : `${api_address}/habit`;
+		
+		const responseData = await fetch(url, {
 			method: "GET",
 			headers: {
 				"content-type": "application/json",
-				"authorization": `Bearer ${accessToken}`,
+				authorization: `Bearer ${accessToken}`,
 			},
 			credentials: "include",
 		});
-		console.log("getHabits", responseData);
+		// console.log("getHabits", responseData);
 
 		return responseData;
 	} catch (e) {

@@ -10,6 +10,7 @@ export enum UserActionTypes {
 }
 
 export class UserState {
+	//на бэке TokenPayloadDTO
 	id: number | null;
 	email: string | null;
 	name: string | null;
@@ -77,4 +78,10 @@ export class HabitDTO {
 		this.photo = dbObject.photo ?? null;
 		this.date_of_create = dbObject.date_of_create ?? null;
 	}
+}
+
+export interface RefreshResponse {
+	access: string;
+	refresh: string;
+	userData: UserState;
 }

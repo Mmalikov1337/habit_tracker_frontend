@@ -9,7 +9,7 @@ export default function Sidebar() {
 	// const dispatch = useDispatch();
 	const user = useSelector((state: { user: UserState }) => state.user);
 	const isAuth = useSelector((state: { auth: {authentificated:boolean} }) => state.auth.authentificated);
-	console.log("isAuth", isAuth, user);
+	// console.log("isAuth", isAuth, user);
 
 	const [isLoaded, setIsLoaded] = React.useState(false);
 	const ls = isLoaded ? new LocalStorageHelper() : null;
