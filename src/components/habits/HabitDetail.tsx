@@ -6,51 +6,65 @@ import { Router, useRouter } from "next/router";
 import MainLayout from "@src/layouts/mainLayout";
 import apiErrorHandler from "@src/api/errorHandler";
 import { useDispatch } from "react-redux";
+import getHabit from "@src/api/getHabit";
+const counter = { val: 0 };
+export default (function HabitDetail() {
+	console.log("HabitDetail re-render", ++counter.val);
 
-export default React.memo(function HabitDetail() {
 	const router = useRouter();
+	console.log("ROUTER", router);
 
-	const [isLoaded, setIsLoaded] = React.useState(false);
+	// const [isLoaded, setIsLoaded] = React.useState(false);
 	const [fetched, setFetched] = React.useState<HabitDTO>(new HabitDTO({ title: "WRONG!!!" }));
-	const ls = isLoaded ? new LocalStorageHelper() : null;
+	const ls = router.isReady ? new LocalStorageHelper() : null;
 	const dispatch = useDispatch();
 
-	React.useEffect(() => {
-		setIsLoaded(true);
-		// console.log("router.query", router.query);
-	}, []);
+	// React.useEffect(() => {
+	// 	setIsLoaded(true);
+	// 	console.log("router.query", router.query);
+	// }, []);
 
 	React.useEffect(() => {
-		if (isLoaded) {
+		// setIsLoaded(true);
+		if (router.isReady) {
+			console.log("router.query.habitId", router.query, router);
 			fetchHabit().then((fetched) => {
 				if (fetched && fetched.length > 0) setFetched(fetched[0]);
 			});
-			// console.log("router.query2", router.query);
 		}
-	}, [isLoaded]);
+	}, [router.isReady]);
+
+	React.useEffect(() => {}, []);
 
 	async function fetchHabit() {
 		if (ls) {
 			const access = ls.getItem<string>("access");
 			if (!access) {
-				// console.log("access not found");
 				return;
 			}
-			const habitsData = await getHabits(access, Number(router.query));
-			if (!habitsData) return;
-			const succeed = await apiErrorHandler(habitsData, dispatch);
-			if (!succeed) return;
-			const data: HabitDTO[] = await habitsData.json();
+			const habitsData = await getHabit(access, Number(router.query.habitId));
+			if (!habitsData) {
+				return;
+			}
+			const succeed = await apiErrorHandler(
+				habitsData,
+				dispatch,
+				async (token: string) => await getHabit(token, Number(router.query.habitId))
+			);
+			if (!succeed) {
+				return;
+			}
+			const data: HabitDTO[] = await succeed.json();
 			if (!data) {
-				// console.log("Failed to await habitsData.json()");
 				return;
 			}
-			// console.log("data", data);
-
 			return data;
 		}
-		// getHabits();
 	}
 
-	return <MainLayout className="habits__container">{fetched.title}</MainLayout>;
+	return (
+		<MainLayout className="habits__container">
+			{fetched.title};{router.query.habitId}
+		</MainLayout>
+	);
 });

@@ -2,3 +2,21 @@ $bgColor:#FBFCFD;
 $primary:#2196F3;
 $minor:#0000008a;
 
+.date_input {
+	background: #fff url(./../assets/images/calendarInput.png) 97% 50% no-repeat;
+	border: 1px solid #c4c4c4;
+	border-radius: 5px;
+	background-color: #fff;
+	padding: 3px 5px;
+	width: 190px;
+	outline: none;
+	font-family: Roboto;
+}
+
+.date_input::-webkit-inner-spin-button {
+	display: none;
+}
+
+.date_input::-webkit-calendar-picker-indicator {
+	opacity: 0;
+}

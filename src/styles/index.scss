@@ -8,6 +8,8 @@
 @import "@styles/common";
 @import "./Habits/Habits.scss";
 
+@import "./Filters/index.scss";
+
 body {
     margin: 0;
     font-family: Roboto;
@@ -26,10 +28,35 @@ body {
 }
 
 .hover {
+    transition: ease-in-out .5s;
 
     &-active,
     &:hover {
+
         background: #E3F2FD;
         color: $primary;
+    }
+}
+
+.btn {
+    border-radius: 0;
+    border: 1px solid $primary;
+    border-radius: 5px;
+    background: transparent;
+    color: $primary;
+    background: transparent;
+
+
+    &:hover,
+    &:active {
+        transition: all .5s;
+        background: $primary;
+        color:#FFFFFF;
+
+    }   
+
+    &-md {
+        width: 80px;
+        height: 30px;
     }
 }

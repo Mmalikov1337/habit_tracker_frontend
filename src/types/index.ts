@@ -85,3 +85,10 @@ export interface RefreshResponse {
 	refresh: string;
 	userData: UserState;
 }
+export type FilterFields = "date_of_create" | "priority" | "difficulty" | "is_healfully" | "value";// на бэке так же
+export interface Filter {
+	field: FilterFields;
+	value: any;
+	name: string;
+	active: boolean;
+}
