@@ -3,25 +3,53 @@ import Link from "next/link";
 import LocalStorageHelper from "@src/helpers/LocalStorageHelper";
 // import { setUserInfo, setIsAuth } from "@src/store/actions";
 import { UserState } from "@src/types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import logout from "@src/api/logout";
+import apiErrorHandler from "@src/api/errorHandler";
+import { setAccess } from "@src/store/dataControllers/accessController";
+import { setAuth } from "@src/store/dataControllers/authController";
+import { setUser } from "@src/store/dataControllers/userController";
 
 export default function Sidebar() {
 	// const dispatch = useDispatch();
 	const user = useSelector((state: { user: UserState }) => state.user);
-	const isAuth = useSelector((state: { auth: {authentificated:boolean} }) => state.auth.authentificated);
+	const isAuth = useSelector(
+		(state: { auth: { authentificated: boolean } }) => state.auth.authentificated
+	);
 	// console.log("isAuth", isAuth, user);
 
 	const [isLoaded, setIsLoaded] = React.useState(false);
 	const ls = isLoaded ? new LocalStorageHelper() : null;
+	const dispatch = useDispatch();
 
 	React.useEffect(() => {
 		setIsLoaded(true);
 	}, []);
+	async function fetchLogout() {
+		if (ls) {
+			const logoutData = await logout();
+			if (!logoutData) {
+				return;
+			}
+			const succeed = await apiErrorHandler(logoutData, dispatch, async () => await logout());
+			if (!succeed) {
+				return;
+			}
+			setAccess("", dispatch);
+			setUser(new UserState({}), dispatch);
+			setAuth({ authentificated: false }, dispatch);
+		}
+	}
 	return (
 		<div className="sidebar">
 			<div className="sidebar__logo">
 				{isAuth ? (
-					<p>{user.name}</p>
+					<p>
+						{user.name}{" "}
+						<Link href="/auth/logout">
+							<a>LOGOUT</a>
+						</Link>
+					</p>
 				) : (
 					<Link href="/auth/login">
 						<a>LOGIN</a>
