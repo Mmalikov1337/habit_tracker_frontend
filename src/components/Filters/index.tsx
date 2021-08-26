@@ -2,6 +2,7 @@ import { Filter, FilterFields } from "@src/types";
 import React, { ChangeEvent } from "react";
 import DateFilter from "./DateFilter";
 import formatDate from "@src/helpers/formatDate";
+import SelectFilter from "./SelectFilter";
 interface FiltersFieldProps {
 	filters: Filter[];
 	setActiveFilters: React.Dispatch<React.SetStateAction<Filter[]>>;
@@ -19,16 +20,38 @@ export default function FiltersField(props: FiltersFieldProps) {
 		temp[index].active = true;
 		setFilters(temp);
 	};
-	const setDateFilter = (field: FilterFields): React.ChangeEventHandler<HTMLInputElement> => {
+	const setFilter = (field: FilterFields): React.ChangeEventHandler<HTMLInputElement> => {
 		// e.target.value === field
 		const index = filters.findIndex((it) => it.field === field);
 		const temp = filters.concat();
-		return (e) => {
-			temp[index].value = formatDate(new Date(e.target.value), "-");
-			setFilters(temp);
-		};
+		console.log("sf field", field);
+
+		switch (field) {
+			case "date_of_create":
+			case "date_of_create_lte":
+			case "date_of_create_gte":
+				return (e) => {
+					temp[index].value = formatDate(new Date(e.target.value), "-");
+					setFilters(temp);
+				};
+			case "is_healfully":
+				return (e) => {
+					temp[index].value = e.target.value;
+					setFilters(temp);
+				};
+			default:
+				return () => {
+					console.log("no setter");
+				};
+		}
 	};
 	const applyFilters = () => {
+		console.log(
+			"filters.filter((it) => it.active && it.value)",
+			filters.filter((it) => it.active && it.value),
+			filters
+		);
+
 		props.setActiveFilters(filters.filter((it) => it.active && it.value));
 		// console.log(
 		// 	"filters active",
@@ -52,6 +75,9 @@ export default function FiltersField(props: FiltersFieldProps) {
 		date_of_create_gte: (onChange: React.ChangeEventHandler<HTMLInputElement>) => (
 			<DateFilter onChange={onChange} />
 		),
+		is_healfully: (onChange: React.ChangeEventHandler<HTMLInputElement>) => (
+			<SelectFilter onChange={onChange} />
+		),
 	};
 	return (
 		<div /*className="habits__filters"*/ className={props.containerClass ?? "filters"}>
@@ -63,7 +89,7 @@ export default function FiltersField(props: FiltersFieldProps) {
 						required={true}
 						className={"select select_active"}
 						onChange={addFilter}
-						defaultValue=""
+						value=""
 					>
 						<option value="" disabled={true}>
 							Select option
@@ -90,7 +116,7 @@ export default function FiltersField(props: FiltersFieldProps) {
 								{
 									filterFields[
 										it.field as "date_of_create" | "date_of_create_lte" | "date_of_create_gte"
-									](setDateFilter(it.field)) //TODO: Сменить "date_of_create" на
+									](setFilter(it.field)) //TODO: Сменить "date_of_create" на
 								}
 								<svg
 									viewBox="0 0 512 512"
