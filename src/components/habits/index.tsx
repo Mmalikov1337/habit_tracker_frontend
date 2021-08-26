@@ -20,6 +20,7 @@ export default React.memo(function Habits() {
 	const [activeFilters, setActiveFilters] = React.useState<Filter[]>([]);
 	const [isLoaded, setIsLoaded] = React.useState(false);
 	const ls = isLoaded ? new LocalStorageHelper() : null;
+	
 	const dispatch = useDispatch();
 
 	React.useEffect(() => {

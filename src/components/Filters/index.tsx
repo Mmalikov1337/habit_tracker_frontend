@@ -1,7 +1,7 @@
-//@ts-nocheck
 import { Filter, FilterFields } from "@src/types";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import DateFilter from "./DateFilter";
+import formatDate from "@src/helpers/formatDate";
 interface FiltersFieldProps {
 	filters: Filter[];
 	setActiveFilters: React.Dispatch<React.SetStateAction<Filter[]>>;
@@ -19,24 +19,37 @@ export default function FiltersField(props: FiltersFieldProps) {
 		temp[index].active = true;
 		setFilters(temp);
 	};
-	const setFilter = (field: FilterFields) => {
+	const setDateFilter = (field: FilterFields): React.ChangeEventHandler<HTMLInputElement> => {
 		// e.target.value === field
 		const index = filters.findIndex((it) => it.field === field);
 		const temp = filters.concat();
-		return (e: React.ChangeEvent<HTMLSelectElement>) => {
-			temp[index].value = new Date(e.target.value).toLocaleDateString("en-US").replaceAll("/", "-");
+		return (e) => {
+			temp[index].value = formatDate(new Date(e.target.value), "-");
 			setFilters(temp);
 		};
 	};
 	const applyFilters = () => {
 		props.setActiveFilters(filters.filter((it) => it.active && it.value));
-		console.log(
-			"filters active",
-			filters.filter((it) => it.active && it.value)
-		);
+		// console.log(
+		// 	"filters active",
+		// 	filters.filter((it) => it.active && it.value)
+		// );
+	};
+	const removeFilter = (field: string) => {
+		const index = filters.findIndex((it) => it.field === field);
+		const temp = filters.concat();
+		temp[index].active = false;
+		setFilters(temp);
+		applyFilters();
 	};
 	const filterFields = {
 		date_of_create: (onChange: React.ChangeEventHandler<HTMLInputElement>) => (
+			<DateFilter onChange={onChange} />
+		),
+		date_of_create_lte: (onChange: React.ChangeEventHandler<HTMLInputElement>) => (
+			<DateFilter onChange={onChange} />
+		),
+		date_of_create_gte: (onChange: React.ChangeEventHandler<HTMLInputElement>) => (
 			<DateFilter onChange={onChange} />
 		),
 	};
@@ -52,13 +65,17 @@ export default function FiltersField(props: FiltersFieldProps) {
 						onChange={addFilter}
 						defaultValue=""
 					>
-						<option value="" disabled={true} >
+						<option value="" disabled={true}>
 							Select option
 						</option>
 						{filters
 							.filter((it) => !it.active)
 							.map((it) => {
-								return <option value={it.field} key={it.field}>{it.name}</option>;
+								return (
+									<option value={it.field} key={it.field}>
+										{it.name}
+									</option>
+								);
 							})}
 					</select>
 				</label>
@@ -71,13 +88,15 @@ export default function FiltersField(props: FiltersFieldProps) {
 							<div className="filters__wrapper" key={it.name}>
 								<span className="filters__name">{it.name}</span>
 								{
-									filterFields[it.field as "date_of_create"](setFilter(it.field)) //TODO: Сменить "date_of_create" на
+									filterFields[
+										it.field as "date_of_create" | "date_of_create_lte" | "date_of_create_gte"
+									](setDateFilter(it.field)) //TODO: Сменить "date_of_create" на
 								}
 								<svg
 									viewBox="0 0 512 512"
 									xmlns="http://www.w3.org/2000/svg"
 									className="filters__del"
-									// onClick={() => removeFilter(index)}
+									onClick={() => removeFilter(it.field)}
 								>
 									<path
 										d="M256 0C114.836 0 0 114.836 0 256s114.836 256 256 256 256-114.836 256-256S397.164 0 256 0zm0 0"

@@ -8,5 +8,15 @@ export const habitsFilters: Filter[] = [
 		value: "",
 		name: "date",
 		active: false,
+	},{
+		field: "date_of_create_lte",
+		value: "",
+		name: "before date",
+		active: false,
+	},{
+		field: "date_of_create_gte",
+		value: "",
+		name: "after date",
+		active: false,
 	},
 ];
