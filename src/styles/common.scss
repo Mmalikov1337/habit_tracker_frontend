@@ -3,14 +3,19 @@ $primary:#2196F3;
 $minor:#0000008a;
 
 .date_input {
-	background: #fff url(./../assets/images/calendarInput.png) 97% 50% no-repeat;
-	border: 1px solid #c4c4c4;
+	background: #fff url(./../assets/images/calendarInput.png) 94% 50% no-repeat;
 	border-radius: 5px;
 	background-color: #fff;
-	padding: 3px 5px;
+	padding: 7px 7px;
 	width: 190px;
 	outline: none;
 	font-family: Roboto;
+	border: 1px solid #e8eaed;
+	box-shadow: 0 1px 3px -2px #9098a9;
+	cursor: pointer;
+	font-size: 16px;
+	color: #5a667f;
+
 }
 
 .date_input::-webkit-inner-spin-button {

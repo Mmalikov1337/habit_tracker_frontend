@@ -82,7 +82,7 @@ export default function FiltersField(props: FiltersFieldProps) {
 	return (
 		<div /*className="habits__filters"*/ className={props.containerClass ?? "filters"}>
 			<div className="filters__field">
-				Add filter: <button onClick={() => console.log(filters)}>zxc</button>
+				Add filter: {/*<button onClick={() => console.log(filters)}>zxc</button>*/}
 				<label className="select_wrapper" htmlFor="filter_select">
 					<select
 						id="filter_select"
@@ -138,9 +138,11 @@ export default function FiltersField(props: FiltersFieldProps) {
 					})}
 			</div>
 			<div className="filters__apply">
-				<button className="btn btn-md" onClick={applyFilters}>
-					Apply
-				</button>
+				{filters.filter((it) => it.active).length > 0 && (
+					<button className="btn btn-md" onClick={applyFilters}>
+						Apply
+					</button>
+				)}
 			</div>
 		</div>
 	);
