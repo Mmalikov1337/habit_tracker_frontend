@@ -13,6 +13,7 @@ import DateFilter from "../Filters/DateFilter";
 import FiltersField from "../Filters";
 import postHabit from "@src/api/putHabit";
 import compareObjects from "@src/helpers/compareObjects";
+import Loader from "../Loader";
 let counter = 0;
 
 export default React.memo(function Habits() {
@@ -140,15 +141,7 @@ export default React.memo(function Habits() {
 										<span className="habits__list__priority">{it.priority}</span>
 									</div>
 									<div className="habits__list__buttons" onClick={(e) => e.stopPropagation()}>
-										{
-											fetchingId === index && <div id="bowlG">
-												<div id="bowl_ringG">
-													<div className="ball_holderG">
-														<div className="ballG"></div>
-													</div>
-												</div>
-											</div>
-										}
+										<Loader renderCondition={fetchingId === index} />
 										<button
 											className="habits__list__button_wrapper"
 											onClick={() =>
