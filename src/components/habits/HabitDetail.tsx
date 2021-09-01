@@ -1,7 +1,7 @@
 import React from "react";
 import getHabits from "@src/api/getHabits";
 import LocalStorageHelper from "@src/helpers/LocalStorageHelper";
-import { HabitDTO } from "@src/types";
+import { HabitDTO, HabitsResponse } from "@src/types";
 import { Router, useRouter } from "next/router";
 import MainLayout from "@src/layouts/mainLayout";
 import apiErrorHandler from "@src/api/errorHandler";
@@ -29,7 +29,7 @@ export default (function HabitDetail() {
 		if (router.isReady) {
 			console.log("router.query.habitId", router.query, router);
 			fetchHabit().then((fetched) => {
-				if (fetched && fetched.length > 0) setFetched(fetched[0]);
+				if (fetched && fetched.habits.length > 0) setFetched(fetched.habits[0]);
 			});
 		}
 	}, [router.isReady]);
@@ -54,7 +54,7 @@ export default (function HabitDetail() {
 			if (!succeed) {
 				return;
 			}
-			const data: HabitDTO[] = await succeed.json();
+			const data: HabitsResponse = await succeed.json();
 			if (!data) {
 				return;
 			}

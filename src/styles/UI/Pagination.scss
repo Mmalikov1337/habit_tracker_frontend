@@ -1,0 +1,59 @@
+$buttonPadding:10px;
+$buttonSize:30px;
+
+.pagination {
+	display: flex;
+	align-items: center;
+	list-style-type: none;
+	font-weight: bold;
+	user-select: none;
+
+	&__icon {
+		width: $buttonSize;
+		display: flex;
+		align-items: center;
+		cursor: pointer;
+
+		path {
+			fill: $primary;
+		}
+
+		&:hover {
+			path {
+				fill: lighten($primary, 10%);
+			}
+		}
+	}
+
+	li+li {
+		// &+& {
+		margin-left: 5px;
+		// }
+	}
+
+	&__number {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		width: $buttonSize;
+		height: $buttonSize;
+		border-radius: 5px;
+		cursor: pointer;
+
+		&-active {
+			border: 1px solid $primary;
+			background: $primary;
+			color: #FFFFFF;
+		}
+
+		&:hover {
+			border: 1px solid $primary;
+
+		}
+	}
+
+	&__dots {
+		padding: $buttonPadding;
+	}
+}

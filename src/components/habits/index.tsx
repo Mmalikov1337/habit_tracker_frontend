@@ -1,7 +1,7 @@
 import getHabits from "@src/api/getHabits";
 import LocalStorageHelper from "@src/helpers/LocalStorageHelper";
 import MainLayout from "@src/layouts/mainLayout";
-import { HabitDTO, Filter, FilterFields } from "@src/types";
+import { HabitDTO, Filter, FilterFields, PaginationData, HabitsResponse } from "@src/types";
 import React, { ChangeEvent } from "react";
 import MinusSVG from "../SVG/minus";
 import PlusSVG from "../SVG/plus";
@@ -14,6 +14,8 @@ import FiltersField from "../Filters";
 import postHabit from "@src/api/putHabit";
 import compareObjects from "@src/helpers/compareObjects";
 import Loader from "../Loader";
+import Pagination from "../UI/Pagination";
+import { useRouter } from "next/router";
 let counter = 0;
 
 export default React.memo(function Habits() {
@@ -21,16 +23,23 @@ export default React.memo(function Habits() {
 
 	const [habits, setHabits] = React.useState<HabitDTO[]>([]);
 	const [activeFilters, setActiveFilters] = React.useState<Filter[]>([]);
-	const [isLoaded, setIsLoaded] = React.useState(false);
+	// const [isLoaded, setIsLoaded] = React.useState(false);
 	const [fetchingId, setFetchingId] = React.useState(-1);
 	// const [isLoaded, setIsLoaded] = React.useState(false);
-	const ls = isLoaded ? new LocalStorageHelper() : null;
+	const router = useRouter();
+	const ls = router.isReady ? new LocalStorageHelper() : null;
+
+	// const [pagination, setPagination] = React.useState<PaginationData>({ limit: 5, offset: 0 });
+
+	const [limit, setLimit] = React.useState<number>(5); //кол-во на странице
+	// const [page, setPage] = React.useState<number>(0); //0,1,2,3,...
+	const [total, setTotal] = React.useState<number>(0); //0,1,2,3,...
 
 	const dispatch = useDispatch();
 
-	React.useEffect(() => {
-		setIsLoaded(true);
-	}, []);
+	// React.useEffect(() => {
+	// 	setIsLoaded(true);
+	// }, []);
 	React.useEffect(() => {
 		console.log("habits", habits);
 	}, [habits]);
@@ -38,20 +47,32 @@ export default React.memo(function Habits() {
 		console.log("habits undefined", habits);
 	}, [habits === undefined]);
 	React.useEffect(() => {
-		if (isLoaded) {
+		if (router.isReady) {
 			fetchHabits().then((fetched) => {
-				if (fetched) setHabits(fetched);
+				if (fetched) {
+					console.log("habits fetched", fetched);
+
+					setHabits(fetched.habits);
+					setTotal(Math.ceil(fetched.total / limit));
+				}
 			});
 		}
-	}, [isLoaded, activeFilters]);
+	}, [router.isReady, activeFilters, limit,router.query]);
 
-	async function fetchHabits(): Promise<HabitDTO[] | undefined> {
+	async function fetchHabits(): Promise<HabitsResponse | undefined> {
 		if (ls) {
 			const access = ls.getItem<string>("access");
 			if (!access) {
 				return;
 			}
-			const args: [accessToken: string, filters?: Filter[]] = [access];
+			const pagination = {
+				limit: limit,
+				offset: (Number(router.query.page) - 1) * limit,
+			};
+			const args: [accessToken: string, pagination: PaginationData, filters?: Filter[]] = [
+				access,
+				pagination,
+			];
 			if (activeFilters.length > 0) {
 				// Если выбраны фильтры, то они добавятся в массив аргументов
 				args.push(activeFilters);
@@ -63,12 +84,12 @@ export default React.memo(function Habits() {
 			const succeed = await apiErrorHandler(
 				habitsData,
 				dispatch,
-				async (token: string) => await getHabits(token, activeFilters)
+				async (token: string) => await getHabits(token, pagination, activeFilters)
 			);
 			if (!succeed) {
 				return;
 			}
-			const data: HabitDTO[] = await succeed.json();
+			const data: HabitsResponse = await succeed.json();
 			if (!data) {
 				return;
 			}
@@ -135,7 +156,7 @@ export default React.memo(function Habits() {
 					habits.map((it, index) => {
 						return (
 							<Link href={{ pathname: "/habits/[habitId]", query: { habitId: it.id } }} key={it.id}>
-								<div className="habits__list__row hover" key={it.id} onClick={() => ""}>
+								<div className="habits__list__row hover" key={it.id}>
 									<div className="habits__list__text">
 										<span className="habits__list__title">{it.title}</span>
 										<span className="habits__list__priority">{it.priority}</span>
@@ -171,6 +192,12 @@ export default React.memo(function Habits() {
 						);
 					})}
 			</div>
+			<Pagination
+				total={total}
+				current={Number(router.query.page)-1}
+				displayQuantity={7}
+				setter={(nextPage) => router.push(`/habits/?page=${nextPage}`)}
+			/>
 		</MainLayout>
 	);
 });

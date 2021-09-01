@@ -5,7 +5,7 @@ export default function toQueryString(arr?: Array<any>) {
 	
 	const temp = arr.map((it) => {
 		const obj = Object.entries(it)[0];
-		// console.log("OBJ",obj, it);
+		console.log("OBJ",obj, it);
 		return `${obj[0]}=${obj[1]}`; //0 - key, 1 - value
 	});
 

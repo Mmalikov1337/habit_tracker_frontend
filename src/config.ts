@@ -28,3 +28,5 @@ export const habitsFilters: Filter[] = [
 		active: false,
 	},
 ];
+
+export const habitsOnPage = 15;

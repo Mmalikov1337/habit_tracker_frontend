@@ -85,6 +85,10 @@ export interface RefreshResponse {
 	refresh: string;
 	userData: UserState;
 }
+export interface HabitsResponse {
+	total: number;
+	habits: Array<HabitDTO>;
+}
 export type FilterFields =
 	| "date_of_create"
 	| "date_of_create_lte"
@@ -98,4 +102,8 @@ export interface Filter {
 	value: any;
 	name: string;
 	active: boolean;
+}
+export interface PaginationData {
+	limit: number; //отображать на странице
+	offset: number; //номер страницы
 }
