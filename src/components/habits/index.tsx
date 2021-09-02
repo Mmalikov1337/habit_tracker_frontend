@@ -31,7 +31,7 @@ export default React.memo(function Habits() {
 
 	// const [pagination, setPagination] = React.useState<PaginationData>({ limit: 5, offset: 0 });
 
-	const [limit, setLimit] = React.useState<number>(5); //кол-во на странице
+	const [limit, setLimit] = React.useState<number>(6); //кол-во на странице
 	// const [page, setPage] = React.useState<number>(0); //0,1,2,3,...
 	const [total, setTotal] = React.useState<number>(0); //0,1,2,3,...
 
@@ -148,7 +148,7 @@ export default React.memo(function Habits() {
 		return setFetchingId(-1);
 	}
 	return (
-		<MainLayout className="habits__container">
+		<MainLayout className="habits__container scrollable">
 			<h2 className="habits__title">Habits</h2>
 			<FiltersField filters={habitsFilters} setActiveFilters={setActiveFilters} />
 			<div className="habits__list">
@@ -159,7 +159,7 @@ export default React.memo(function Habits() {
 								<div className="habits__list__row hover" key={it.id}>
 									<div className="habits__list__text">
 										<span className="habits__list__title">{it.title}</span>
-										<span className="habits__list__priority">{it.priority}</span>
+										<span className="habits__list__priority">Priority:{it.priority}</span>
 									</div>
 									<div className="habits__list__buttons" onClick={(e) => e.stopPropagation()}>
 										<Loader renderCondition={fetchingId === index} />

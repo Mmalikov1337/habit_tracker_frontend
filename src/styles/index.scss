@@ -12,152 +12,110 @@
 @import "./UI/Pagination.scss";
 
 body {
-    margin: 0;
-    font-family: Roboto;
+	margin: 0;
+	font-family: Roboto;
+	overflow: hidden;
+}
+
+.scrollable {
+	height: 100%;
+	overflow: scroll;
 }
 
 .main {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-    background-color: $bgColor;
+	display: flex;
+	flex-direction: row;
+	height: 100vh;
+	background-color: $bgColor;
 }
 
 .svg {
-    min-width: 10px;
-    height: auto;
+	min-width: 10px;
+	height: auto;
 }
 
 .hover {
-    transition: ease-in-out .5s;
+	transition: ease-in-out .5s;
 
-    &-active,
-    &:hover {
+	&-active,
+	&:hover {
 
-        background: #E3F2FD;
-        color: $primary;
-    }
+		background: #E3F2FD;
+		color: $primary;
+	}
 }
 
 .btn {
-    border-radius: 0;
-    border: 1px solid $primary;
-    border-radius: 5px;
-    background: transparent;
-    color: $primary;
-    background: transparent;
+	border-radius: 0;
+	border: 1px solid $primary;
+	border-radius: 5px;
+	background: transparent;
+	color: $primary;
+	background: transparent;
 
 
-    &:hover,
-    &:active {
-        transition: all .5s;
-        background: $primary;
-        color: #FFFFFF;
+	&:hover,
+	&:active {
+		transition: all .5s;
+		background: $primary;
+		color: #FFFFFF;
 
-    }
+	}
 
-    &-md {
-        width: 80px;
-        height: 30px;
-    }
+	&-md {
+		width: 80px;
+		height: 30px;
+	}
 }
 
-// .cssload-loader_container{
-
-// }
-// .cssload-loader {
-//     // position: relative;
-//     width: 6px;
-//     height: 6px;
-//     // left: 46%;
-//     left: calc(50% - 6px);
-//     border-radius: 6px;
-//     background-color: rgb(0, 0, 0);
-//     transform-origin: 50% 50%;
-//     animation: cssload-loader 1.15s ease-in-out infinite;
-
-// }
-
-// .cssload-loader:before {
-//     content: "";
-//     position: absolute;
-//     background-color: rgb(0, 0, 0);
-//     top: 0px;
-//     left: -12px;
-//     height: 6px;
-//     width: 6px;
-//     border-radius: 6px;
-// }
-
-// .cssload-loader:after {
-//     content: "";
-//     position: absolute;
-//     background-color: rgb(0, 0, 0);
-//     top: 0px;
-//     left: 12px;
-//     height: 6px;
-//     width: 6px;
-//     border-radius: 6px;
-// }
-
-// @keyframes cssload-loader {
-//     0% {
-//         transform: rotate(0deg);
-//     }
-
-//     50% {
-//         transform: rotate(180deg);
-//     }
-
-//     100% {
-//         transform: rotate(180deg);
-//     }
-// }
-#bowlG{
+/* loader */
+#bowlG {
 	// position:relative;
-	width:31px;
-	height:21px;
-	margin:auto;
+	width: 31px;
+	height: 21px;
+	margin: auto;
 }
 
-#bowl_ringG{
-	position:absolute;
-	width:21px;
-	height:21px;
-	border:2px solid lighten($color: $primary, $amount: 15%);
-	border-radius:21px;
+#bowl_ringG {
+	position: absolute;
+	width: 21px;
+	height: 21px;
+	border: 2px solid lighten($color: $primary, $amount: 15%);
+	border-radius: 21px;
 }
 
-.ball_holderG{
-	position:absolute;
-	width:6px;
-	height:21px;
-	left:8px;
-	top:0px;
-	animation-name:ball_moveG;
-	animation-duration:1.5s;
-	animation-iteration-count:infinite;
-	animation-timing-function:linear;
+.ball_holderG {
+	position: absolute;
+	width: 6px;
+	height: 21px;
+	left: 8px;
+	top: 0px;
+	animation-name: ball_moveG;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
 }
 
-.ballG{
-	position:absolute;
-	left:0px;
-	top:-5px;
-	width:8px;
-	height:8px;
-	background:lighten($color: $primary, $amount: 15%);
-	border-radius:7px;
+.ballG {
+	position: absolute;
+	left: 0px;
+	top: -5px;
+	width: 8px;
+	height: 8px;
+	background: lighten($color: $primary, $amount: 15%);
+	border-radius: 7px;
 }
 
 
 
-@keyframes ball_moveG{
-	0%{
-		transform:rotate(0deg)
+@keyframes ball_moveG {
+	0% {
+		transform: rotate(0deg)
 	}
 
-	100%{
-		transform:rotate(360deg)
+	100% {
+		transform: rotate(360deg)
 	}
 }
+
+/* loader */

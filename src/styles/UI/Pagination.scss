@@ -7,6 +7,10 @@ $buttonSize:30px;
 	list-style-type: none;
 	font-weight: bold;
 	user-select: none;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	margin: 15px 0;
 
 	&__icon {
 		width: $buttonSize;
