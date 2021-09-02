@@ -13,16 +13,23 @@ interface PaginationProps {
 }
 
 export default function Pagination(props: PaginationProps) {
-	const [state, setState] = React.useState([]);
-	const active = rangeArray(props.displayQuantity, props.current + 1);
 	const offsetOn = 3;
 	const pages = createPages(props.total, props.current, props.displayQuantity, offsetOn);
+	const setPrevPage = () => {
+		if (props.current - 1 >= 0) props.setter(props.current);
+	};
+	const setNextPage = () => {
+		if (props.current + 1 < props.total) props.setter(props.current + 2);
+	};
+	React.useEffect(() => {
+		console.log("props.current", props.current);
+	}, [props.current]);
 	return (
 		<ul className="pagination">
-			<li className="pagination__icon">
+			<li className="pagination__icon" onClick={setPrevPage}>
 				<ChevronLeft />
 			</li>
-			{ (pages[0] !== 1 ) && (
+			{pages[0] !== 1 && (
 				<>
 					<li className="pagination__number" onClick={() => props.setter(1)}>
 						{1}
@@ -43,7 +50,7 @@ export default function Pagination(props: PaginationProps) {
 				</li>
 				// </Link>/
 			))}
-			{ (pages[pages.length-1] !== props.total ) && (
+			{pages[pages.length - 1] !== props.total && (
 				<>
 					<li className="pagination__dots">...</li>
 					<li className="pagination__number" onClick={() => props.setter(props.total)}>
@@ -52,7 +59,7 @@ export default function Pagination(props: PaginationProps) {
 				</>
 			)}
 
-			<li className="pagination__icon">
+			<li className="pagination__icon" onClick={setNextPage}>
 				<ChevronRight />
 			</li>
 		</ul>

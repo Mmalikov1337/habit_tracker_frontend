@@ -16,6 +16,7 @@ import compareObjects from "@src/helpers/compareObjects";
 import Loader from "../Loader";
 import Pagination from "../UI/Pagination";
 import { useRouter } from "next/router";
+import verifyPageNumber from "@src/helpers/verifyQuery";
 let counter = 0;
 
 export default React.memo(function Habits() {
@@ -67,7 +68,7 @@ export default React.memo(function Habits() {
 			}
 			const pagination = {
 				limit: limit,
-				offset: (Number(router.query.page) - 1) * limit,
+				offset: (verifyPageNumber(router.query.page, 1, total) - 1) * limit,
 			};
 			const args: [accessToken: string, pagination: PaginationData, filters?: Filter[]] = [
 				access,
@@ -194,7 +195,7 @@ export default React.memo(function Habits() {
 			</div>
 			<Pagination
 				total={total}
-				current={Number(router.query.page)-1}
+				current={verifyPageNumber(router.query.page, 1, total)-1}
 				displayQuantity={7}
 				setter={(nextPage) => router.push(`/habits/?page=${nextPage}`)}
 			/>
