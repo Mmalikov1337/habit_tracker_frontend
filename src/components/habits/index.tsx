@@ -31,7 +31,7 @@ export default React.memo(function Habits() {
 
 	// const [pagination, setPagination] = React.useState<PaginationData>({ limit: 5, offset: 0 });
 
-	const [limit, setLimit] = React.useState<number>(6); //кол-во на странице
+	const [limit, setLimit] = React.useState<number>(20); //кол-во на странице
 	// const [page, setPage] = React.useState<number>(0); //0,1,2,3,...
 	const [total, setTotal] = React.useState<number>(0); //0,1,2,3,...
 
