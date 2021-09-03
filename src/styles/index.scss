@@ -10,11 +10,26 @@
 
 @import "./Filters/index.scss";
 @import "./UI/Pagination.scss";
+@import "./Habits/Detail.scss";
 
 body {
 	margin: 0;
 	font-family: Roboto;
 	overflow: hidden;
+}
+
+.plate {
+	border-radius: 15px;
+}
+
+.bg-def {
+	background: darken($color: $bgColor, $amount: 3%)
+}
+
+.bg-pri {
+	background: darken($color: $primary, $amount: 3%);
+	color: white;
+
 }
 
 ::-webkit-scrollbar {
@@ -26,6 +41,7 @@ body {
 	border-radius: 5px;
 	background: #a3a3a3;
 	width: 8px;
+
 	&:hover {
 		background: $primary;
 	}
@@ -80,6 +96,16 @@ body {
 	&-md {
 		width: 80px;
 		height: 30px;
+	}
+
+	&-red {
+		border: 1px solid #911b1b;
+		color: #911b1b;
+
+		&:hover,
+		&:active {
+			background: #911b1b;
+		}
 	}
 }
 

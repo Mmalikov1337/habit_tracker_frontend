@@ -161,6 +161,7 @@ export default function Sidebar() {
 				</Link>
 			</div>
 			<div className="sidebar__settings">
+				<div className="sidebar__settings__head">Settings</div>
 				<Link href="#">
 					<a className="sidebar__link hover">
 						<svg
@@ -179,7 +180,6 @@ export default function Sidebar() {
 						<span>Main Settings</span>
 					</a>
 				</Link>
-				<div className="sidebar__settings__head">Settings</div>
 
 				<Link href="#">
 					<a className="sidebar__link hover">

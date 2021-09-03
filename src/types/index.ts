@@ -1,3 +1,5 @@
+import parseJson from "@src/helpers/parseJson";
+
 export interface ISVG {
 	extraClassName?: string;
 }
@@ -60,7 +62,8 @@ export class HabitDTO {
 	title: string | null;
 	priority: number | null;
 	difficulty: number | null;
-	notes: string | null;
+	notes: INotesParsed[];
+	dynamics: IDynamicsParsed[];
 	is_healfully: boolean | null;
 	value: number | null;
 	photo: string | null;
@@ -72,14 +75,22 @@ export class HabitDTO {
 		this.title = dbObject.title ?? null;
 		this.priority = dbObject.priority ?? null;
 		this.difficulty = dbObject.difficulty ?? null;
-		this.notes = dbObject.notes ?? null;
+		this.notes = parseJson<INotesParsed[]>(dbObject.notes);
+		this.dynamics = parseJson<IDynamicsParsed[]>(dbObject.dynamics);
 		this.is_healfully = dbObject.is_healfully ?? null;
 		this.value = dbObject.value ?? null;
 		this.photo = dbObject.photo ?? null;
 		this.date_of_create = dbObject.date_of_create ?? null;
 	}
 }
-
+export interface IDynamicsParsed {
+	date: string;
+	value: string;
+}
+export interface INotesParsed {
+	title: string;
+	text: string;
+}
 export interface RefreshResponse {
 	access: string;
 	refresh: string;

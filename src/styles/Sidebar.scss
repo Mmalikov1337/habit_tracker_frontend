@@ -6,7 +6,7 @@ $linkHeight: 40px;
 
 .sidebar {
     width: 250px;
-    border-right: 1px solid #E5E5E5;
+    border-right: 1px solid $mainBorderColor;
 
     &__logo {
         height: 140px;
@@ -16,8 +16,8 @@ $linkHeight: 40px;
     }
 
     &__links {
-        border-top: 1px solid #e5e5e5;
-        border-bottom: 1px solid #e5e5e5;
+        border-top: 1px solid $mainBorderColor;
+        border-bottom: 1px solid $mainBorderColor;
         display: flex;
         flex-direction: column;
         padding: 12px;
@@ -32,7 +32,8 @@ $linkHeight: 40px;
         border: 1px solid transparent;
         padding: 8px;
         cursor: pointer;
-
+        color: $primary;
+        text-decoration: none;
         &+& {
             margin-top: 8px;
         }
@@ -51,6 +52,11 @@ $linkHeight: 40px;
     }
 
     &__settings {
+
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding: 12px;
         &__head {
             margin-left: 17px;
             margin-top: 12px;

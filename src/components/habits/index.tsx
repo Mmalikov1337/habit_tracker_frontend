@@ -11,7 +11,7 @@ import apiErrorHandler from "@src/api/errorHandler";
 import { habitsFilters } from "@src/config";
 import DateFilter from "../Filters/DateFilter";
 import FiltersField from "../Filters";
-import postHabit from "@src/api/putHabit";
+import putHabit from "@src/api/putHabit";
 import compareObjects from "@src/helpers/compareObjects";
 import Loader from "../Loader";
 import Pagination from "../UI/Pagination";
@@ -122,14 +122,14 @@ export default React.memo(function Habits() {
 		if (!access) {
 			return setFetchingId(-1);
 		}
-		const resData = await postHabit(access, id, temp[index]);
+		const resData = await putHabit(access, id, temp[index]);
 		if (!resData) {
 			return setFetchingId(-1);
 		}
 		const succeed = await apiErrorHandler(
 			resData,
 			dispatch,
-			async (token: string) => await postHabit(token, id, temp[index])
+			async (token: string) => await putHabit(token, id, temp[index])
 		);
 		if (!succeed) {
 			return setFetchingId(-1);
@@ -148,6 +148,7 @@ export default React.memo(function Habits() {
 		setHabits(temp);
 		return setFetchingId(-1);
 	}
+	
 	return (
 		<MainLayout className="habits__container scrollable">
 			<h2 className="habits__title">Habits</h2>
@@ -157,7 +158,7 @@ export default React.memo(function Habits() {
 					habits.map((it, index) => {
 						return (
 							<Link href={{ pathname: "/habits/[habitId]", query: { habitId: it.id } }} key={it.id}>
-								<div className="habits__list__row hover" key={it.id}>
+								<div className="habits__list__row hover plate bg-def" key={it.id}>
 									<div className="habits__list__text">
 										<span className="habits__list__title">{it.title}</span>
 										<span className="habits__list__priority">Priority:{it.priority}</span>

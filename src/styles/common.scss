@@ -1,13 +1,12 @@
 $bgColor:#FBFCFD;
 $primary:#2196F3;
 $minor:#0000008a;
+$mainBorderColor:#E5E5E5;
 
-.date_input {
-	background: #fff url(./../assets/images/calendarInput.png) 94% 50% no-repeat;
+.date_input,
+.text_input {
 	border-radius: 5px;
 	background-color: #fff;
-	padding: 7px 7px;
-	width: 190px;
 	outline: none;
 	font-family: Roboto;
 	border: 1px solid #e8eaed;
@@ -15,7 +14,18 @@ $minor:#0000008a;
 	cursor: pointer;
 	font-size: 16px;
 	color: #5a667f;
-
+}
+.textarea{
+	resize: none;
+	height: 100px;
+}
+.text_input{
+	padding: 4px;
+}
+.date_input {
+	padding: 7px 7px;
+	width: 190px;
+	background: #fff url(./../assets/images/calendarInput.png) 94% 50% no-repeat;
 }
 
 .date_input::-webkit-inner-spin-button {
