@@ -17,12 +17,14 @@ import Loader from "../Loader";
 import Pagination from "../UI/Pagination";
 import { useRouter } from "next/router";
 import verifyPageNumber from "@src/helpers/verifyQuery";
+import HabitDetail from "./HabitDetail";
 let counter = 0;
 
 export default React.memo(function Habits() {
 	console.log("Habits re-render", ++counter);
 
 	const [habits, setHabits] = React.useState<HabitDTO[]>([]);
+	const [selectedId, setSelectedId] = React.useState<number>(-1);
 	const [activeFilters, setActiveFilters] = React.useState<Filter[]>([]);
 	// const [isLoaded, setIsLoaded] = React.useState(false);
 	const [fetchingId, setFetchingId] = React.useState(-1);
@@ -58,7 +60,7 @@ export default React.memo(function Habits() {
 				}
 			});
 		}
-	}, [router.isReady, activeFilters, limit,router.query]);
+	}, [router.isReady, activeFilters, limit, router.query]);
 
 	async function fetchHabits(): Promise<HabitsResponse | undefined> {
 		if (ls) {
@@ -148,17 +150,25 @@ export default React.memo(function Habits() {
 		setHabits(temp);
 		return setFetchingId(-1);
 	}
-	
+	React.useEffect(() => {
+		console.log(selectedId);
+
+	}, [selectedId])
+	const setActiveHabit = (id: number | null) => {
+		console.log("setActiveHabit, id", id);
+
+		setSelectedId(id ?? -1)
+	}
 	return (
 		<MainLayout className="habits__container scrollable">
 			<h2 className="habits__title">Habits</h2>
 			<FiltersField filters={habitsFilters} setActiveFilters={setActiveFilters} />
-			<div className="habits__list">
-				{habits.length > 0 &&
-					habits.map((it, index) => {
-						return (
-							<Link href={{ pathname: "/habits/[habitId]", query: { habitId: it.id } }} key={it.id}>
-								<div className="habits__list__row hover plate bg-def" key={it.id}>
+			<div className="habits__wrapper">
+				<div className="habits__list">
+					{habits.length > 0 &&
+						habits.map((it, index) => {
+							return (
+								<div className={`habits__list__row hover plate bg-def ${it.id === selectedId ? "active" : ""}`} key={it.id} onClick={() => setActiveHabit(it.id)} >
 									<div className="habits__list__text">
 										<span className="habits__list__title">{it.title}</span>
 										<span className="habits__list__priority">Priority:{it.priority}</span>
@@ -190,13 +200,17 @@ export default React.memo(function Habits() {
 										</button>
 									</div>
 								</div>
-							</Link>
-						);
-					})}
+							);
+						})}
+				</div>
+				{selectedId > 0 && <div className="habits__selected">
+					<HabitDetail habitId={selectedId} />
+				</div>}
 			</div>
+
 			<Pagination
 				total={total}
-				current={verifyPageNumber(router.query.page, 1, total)-1}
+				current={verifyPageNumber(router.query.page, 1, total) - 1}
 				displayQuantity={7}
 				setter={(nextPage) => router.push(`/habits/?page=${nextPage}`)}
 			/>

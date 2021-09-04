@@ -6,7 +6,7 @@ export default function verifyPageNumber(
 	// if (typeof query !== "string") return min;
 	const numberQuery = Number(query);
 	if (!numberQuery) {
-		console.log("!numberQuery",min);
+		console.log("!numberQuery",min,numberQuery, query);
 
 		return min;
 	}

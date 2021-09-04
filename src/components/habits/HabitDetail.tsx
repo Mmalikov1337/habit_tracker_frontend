@@ -19,37 +19,46 @@ import compareObjects from "@src/helpers/compareObjects";
 const ChartNoSSR = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const counter = { val: 0 };
-export default (function HabitDetail() {
+
+interface HabitDetailProps {
+	habitId: number
+}
+
+export default function HabitDetail(props: HabitDetailProps) {
 	console.log("HabitDetail re-render", ++counter.val);
 
-	const router = useRouter();
-	console.log("ROUTER", router);
+	// const router = useRouter();
+	// console.log("ROUTER", router);
 
-	// const [isLoaded, setIsLoaded] = React.useState(false);
+	const [isLoaded, setIsLoaded] = React.useState(false);
 	const [habitData, setHabitData] = React.useState<HabitDTO>(new HabitDTO({ title: "..." }));
 	const [fetching, setFetching] = React.useState(false);
-	const ls = router.isReady ? new LocalStorageHelper() : null;
+	const ls = isLoaded ? new LocalStorageHelper() : null;
 	const dispatch = useDispatch();
+
+	React.useEffect(() => {
+		setIsLoaded(true)
+	}, []);
 
 	async function setHabitNotes(notes: INotesParsed[]) {
 		if (!ls) {
-			console.log("(!ls",!ls);
-			
+			console.log("(!ls", !ls);
+
 			return;
 		}
 		if (habitData.title === "...") {
-			console.log("habitData.title === ",habitData.title === "...");
-			
+			console.log("habitData.title === ", habitData.title === "...");
+
 			return;
 		}
 		// if (notes.length === 0) {
 		// 	console.log("notes.length === 0",notes.length === 0);
-			
+
 		// 	return;
 		// }
 		if (compareObjects(notes, habitData.notes)) {
-			console.log("compareObjects(notes, habitData.notes)",compareObjects(notes, habitData.notes));
-			
+			console.log("compareObjects(notes, habitData.notes)", compareObjects(notes, habitData.notes));
+
 			return;
 		}
 		const access = ls.getItem<string>("access");
@@ -59,14 +68,14 @@ export default (function HabitDetail() {
 		const temp: HabitDTO = Object.assign(habitData);
 		temp.notes = notes;
 		setFetching(true);
-		const resData = await putHabit(access, Number(router.query.habitId), temp);
+		const resData = await putHabit(access, props.habitId, temp);
 		if (!resData) {
 			return setFetching(false);
 		}
 		const succeed = await apiErrorHandler(
 			resData,
 			dispatch,
-			async (token: string) => await putHabit(token, Number(router.query.habitId), temp)
+			async (token: string) => await putHabit(token, props.habitId, temp)
 		);
 		if (!succeed) {
 			return setFetching(false);
@@ -86,15 +95,15 @@ export default (function HabitDetail() {
 
 	React.useEffect(() => {
 		// setIsLoaded(true);
-		if (router.isReady) {
-			console.log("router.query.habitId", router.query, router);
+		if (isLoaded) {
+			// console.log("router.query.habitId", router.query, router);
 			fetchHabit().then((fetched) => {
 				if (fetched && fetched.habits.length > 0) setHabitData(fetched.habits[0]);
 			});
 		}
-	}, [router.isReady]);
+	}, [isLoaded, props.habitId]);
 
-	React.useEffect(() => {}, []);
+
 
 	async function fetchHabit() {
 		if (ls) {
@@ -102,14 +111,14 @@ export default (function HabitDetail() {
 			if (!access) {
 				return;
 			}
-			const habitsData = await getHabit(access, Number(router.query.habitId));
+			const habitsData = await getHabit(access, props.habitId);
 			if (!habitsData) {
 				return;
 			}
 			const succeed = await apiErrorHandler(
 				habitsData,
 				dispatch,
-				async (token: string) => await getHabit(token, Number(router.query.habitId))
+				async (token: string) => await getHabit(token, props.habitId)
 			);
 			if (!succeed) {
 				return;
@@ -150,7 +159,7 @@ export default (function HabitDetail() {
 		[habitData.dynamics]
 	);
 	return (
-		<MainLayout className="habits__container scrollable">
+		<>
 			<div className="habit_detail__title">
 				<h4>{habitData.title}</h4>
 			</div>
@@ -170,13 +179,13 @@ export default (function HabitDetail() {
 			<ChartNoSSR
 				options={options}
 				height="50%"
-				width="50%"
+				width="100%"
 				series={series}
 				xaxis={{ type: "datetime" }}
 			/>
 			<div className="habit_detail__notes">
 				<HabitNotes notes={habitData.notes} onSave={setHabitNotes} />
 			</div>
-		</MainLayout>
+		</>
 	);
-});
+};

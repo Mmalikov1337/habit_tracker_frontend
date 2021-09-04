@@ -68,7 +68,7 @@ body {
 .hover {
 	transition: ease-in-out .5s;
 
-	&-active,
+	&.active,
 	&:hover {
 
 		background: #E3F2FD;

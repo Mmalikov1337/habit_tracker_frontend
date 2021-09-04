@@ -15,11 +15,27 @@
 		font-weight: normal;
 	}
 
+	&__wrapper {
+		display: flex;
+		border-top: 1px solid $mainBorderColor;
+
+	}
+
+	&__selected {
+		flex-basis: 50%;
+		flex-grow: 1;
+		border-left: 1px solid $mainBorderColor;
+		padding-left: 15px;
+	
+	}
+
 	&__list {
 		display: flex;
 		flex-direction: column;
-		flex-grow: 1;
+		flex-basis: 50%;
 
+		flex-grow: 2;
+		padding: 0 15px;
 		&__row {
 			display: flex;
 			align-items: center;
@@ -28,7 +44,7 @@
 			// margin: 5px;
 			margin: 5px 0;
 			padding: 10px;
-			
+
 		}
 
 
